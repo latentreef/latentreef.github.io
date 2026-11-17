@@ -1,0 +1,129 @@
+/* Profile card: tilted in 3D, dark in both themes. The photo gets a CRT / TV look:
+   grayscale, scanlines, RGB subpixel stripes, a slow scan band, color fringing and short glitches. */
+.pcard {
+  --rx: 0deg; --ry: 0deg;
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #0d0f11;
+  color: #fff;
+  box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transform: perspective(1600px) rotateY(calc(12deg + var(--ry))) rotateX(var(--rx));
+  transform-origin: 0 50%; /* the left edge stays put, so the menu stays on the border */
+  transition: transform 0.8s var(--ease-out);
+}
+
+/* ---------- Photo + CRT layers ---------- */
+.crt {
+  position: absolute; inset: 0 0 auto 0; height: 76%; overflow: hidden; isolation: isolate;
+  /* the whole "screen" (photo + effects) fades into the card's dark bottom */
+  -webkit-mask-image: linear-gradient(#000 60%, transparent 100%);
+  mask-image: linear-gradient(#000 60%, transparent 100%);
+}
+.crt__img, .crt__ghost { position: absolute; inset: 0; width: 100%; height: 100%; }
+.crt__img { object-fit: cover; filter: grayscale(1) contrast(1.12) brightness(0.95); animation: crtFlicker 5s steps(1) infinite; }
+.crt__initials { position: absolute; inset: 0; display: grid; place-items: center; font-size: 6rem; font-weight: 700; color: rgba(255, 255, 255, 0.2); }
+
+/* Red and cyan copies, screened on top and nudged sideways = color fringing like an old TV */
+.crt__ghost {
+  background-size: cover; background-repeat: no-repeat;
+  background-blend-mode: multiply; /* photo × red (or cyan) = just that color channel */
+  mix-blend-mode: screen;
+  opacity: 0.32;
+  pointer-events: none;
+}
+.crt__ghost--r { background-color: #ff2a2a; translate: -1.5px 0; }
+.crt__ghost--c { background-color: #00e5ff; translate: 1.5px 0; }
+
+/* Scanlines + RGB subpixel stripes */
+.crt__lines {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.32) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.06) 0 1px, rgba(0, 255, 0, 0.04) 1px 2px, rgba(0, 0, 255, 0.06) 2px 3px);
+  animation: crtRoll 0.35s linear infinite;
+}
+/* A bright band that slowly rolls down the screen */
+.crt__scan {
+  position: absolute; left: 0; right: 0; top: -30%; height: 30%; z-index: 3; pointer-events: none;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.07) 45%, rgba(160, 255, 180, 0.08) 50%, transparent);
+  animation: crtScan 7s linear infinite;
+}
+.crt__vignette {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: radial-gradient(ellipse 85% 75% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55));
+}
+@keyframes crtRoll { to { background-position: 0 3px, 0 0; } }
+@keyframes crtScan { to { top: 100%; } }
+@keyframes crtFlicker { 0%, 100% { opacity: 1; } 47% { opacity: 0.96; } 48% { opacity: 1; } 82% { opacity: 0.94; } 83% { opacity: 1; } }
+
+/* Glitch burst (class toggled from JS) */
+.crt.is-glitch .crt__img { animation: crtJolt 0.3s steps(2) infinite; }
+.crt.is-glitch .crt__ghost { opacity: 0.85; }
+.crt.is-glitch .crt__ghost--r { animation: glitchR 0.35s steps(1) infinite; }
+.crt.is-glitch .crt__ghost--c { animation: glitchC 0.35s steps(1) infinite; }
+.crt.is-glitch .crt__lines { filter: contrast(1.6); }
+@keyframes crtJolt { 0% { translate: 0 0; filter: grayscale(1) contrast(1.3) brightness(1.15); } 50% { translate: 3px -1px; filter: grayscale(1) contrast(1.5) brightness(0.9); } }
+@keyframes glitchR {
+  0% { clip-path: inset(8% 0 72% 0); translate: -12px 0; }
+  20% { clip-path: inset(58% 0 22% 0); translate: 9px 0; }
+  40% { clip-path: inset(30% 0 52% 0); translate: -7px 0; }
+  60% { clip-path: inset(80% 0 6% 0); translate: 12px 0; }
+  80% { clip-path: inset(4% 0 86% 0); translate: -5px 0; }
+}
+@keyframes glitchC {
+  0% { clip-path: inset(62% 0 18% 0); translate: 10px 0; }
+  20% { clip-path: inset(12% 0 70% 0); translate: -8px 0; }
+  40% { clip-path: inset(44% 0 38% 0); translate: 6px 0; }
+  60% { clip-path: inset(22% 0 66% 0); translate: -12px 0; }
+  80% { clip-path: inset(70% 0 12% 0); translate: 4px 0; }
+}
+
+/* ---------- Name, role, socials ---------- */
+.pcard__info {
+  position: absolute; left: 0; right: 0; bottom: 92px; z-index: 6;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 0 1.5rem;
+}
+.pcard__name { font-size: clamp(1.9rem, 2.6vw, 2.35rem); font-weight: 700; line-height: 1.05; letter-spacing: 0.01em; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6); }
+.pcard__role { min-height: 1.6em; margin-top: 0.2rem; font-size: 1.3rem; font-weight: 700; color: #e6e9e7; }
+.pcard__caret { margin-left: 2px; color: var(--accent); animation: blink 1s steps(1) infinite; }
+.pcard__socials { display: flex; gap: 0.4rem; margin-top: 1.1rem; }
+.pcard__socials a {
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  color: #e6e9e7; transition: color 0.3s, background-color 0.3s, transform 0.4s var(--ease-spring);
+}
+.pcard__socials a:hover { color: var(--accent); background: rgba(255, 255, 255, 0.06); transform: translateY(-3px); }
+.pcard__socials .ico { width: 20px; height: 20px; }
+
+/* ---------- Two actions along the bottom ---------- */
+.pcard__actions {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 76px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(20, 23, 26, 0.6), #0b0d0f);
+}
+.pcard__action {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-size: 0.88rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #fff;
+  transition: color 0.3s, background-color 0.3s;
+}
+.pcard__action + .pcard__action { border-left: 1px solid rgba(255, 255, 255, 0.08); }
+.pcard__action .ico { width: 17px; height: 17px; transition: transform 0.4s var(--ease-spring); }
+.pcard__action:hover { color: var(--accent); background: rgba(255, 255, 255, 0.03); }
+.pcard__action:hover .ico { transform: translate(2px, -2px); }
+
+/* Entrance after the loader */
+.pcard { opacity: 0; }
+.loaded .pcard { animation: cardIn 1.2s var(--ease-out) 0.2s forwards; }
+@keyframes cardIn { from { opacity: 0; translate: 0 40px; } to { opacity: 1; translate: 0 0; } }
+
+/* Desktop: the side menu covers the card's left 42px, so keep the buttons clear of it */
+@media (min-width: 1101px) {
+  .pcard__actions { padding-left: 44px; }
+  .pcard__action { font-size: 0.82rem; letter-spacing: 0.06em; }
+}
+@media (max-width: 1100px) {
+  .pcard { transform: none; }
+}

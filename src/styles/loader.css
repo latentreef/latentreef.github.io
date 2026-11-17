@@ -1,0 +1,37 @@
+/* Loader: "Hello, world." with a light sweep, then three panels (graphite, green, deep green) wipe upward */
+.loader { position: fixed; inset: 0; z-index: 1000; pointer-events: none; }
+body.is-loading .loader { pointer-events: all; }
+
+.loader__panel { position: absolute; inset: 0; transition: transform 1s var(--ease-out); }
+.loader__panel--1 { background: #111315; z-index: 3; }
+.loader__panel--2 { background: #48c25c; z-index: 2; transition-delay: 0.12s; }
+.loader__panel--3 { background: #0f2a17; z-index: 1; transition-delay: 0.24s; }
+
+.loader__content {
+  position: absolute; inset: 0; z-index: 4;
+  display: grid; place-content: center; text-align: center; color: #fff;
+  transition: opacity 0.4s, transform 0.6s var(--ease-out);
+}
+.loader__hello {
+  font-family: var(--font-sans); font-weight: 600; letter-spacing: -0.005em;
+  font-size: clamp(2.8rem, 10vw, 6.5rem);
+  line-height: 1.1;
+  background: linear-gradient(90deg, #fff 0 45%, rgba(255, 255, 255, 0.2) 55% 100%);
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: inkSweep 1.6s var(--ease-out) forwards;
+}
+.loader__word {
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.6vw, 1rem); margin-top: 0.8rem;
+  opacity: 0; animation: fadeUp 0.8s var(--ease-out) 0.6s forwards;
+}
+.loader__count { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.2em; margin-top: 1.4rem; opacity: 0.7; }
+
+body.loaded .loader__content { opacity: 0; transform: translateY(-30px); }
+body.loaded .loader__panel { transform: translateY(-100%); }
+
+@keyframes inkSweep { to { background-position: 0 0; } }

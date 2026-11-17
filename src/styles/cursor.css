@@ -1,0 +1,37 @@
+/* Custom cursor (mouse / trackpad only): green dot + ring, plus the click star burst */
+.cursor { display: none; }
+.has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
+.has-cursor .cursor { display: block; }
+
+.cursor__dot, .cursor__ring {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  pointer-events: none; border-radius: 50%; will-change: transform;
+}
+.cursor__dot {
+  width: 6px; height: 6px; margin: -3px 0 0 -3px;
+  background: var(--accent);
+  transition: opacity 0.3s;
+}
+.cursor__ring {
+  width: 36px; height: 36px; margin: -18px 0 0 -18px;
+  border: 1px solid var(--accent); opacity: 0.6;
+  display: grid; place-items: center;
+  transition: width 0.4s var(--ease-out), height 0.4s var(--ease-out), margin 0.4s var(--ease-out),
+    background-color 0.3s, border-color 0.3s, opacity 0.3s;
+}
+.cursor__label {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap;
+  color: var(--accent-ink); opacity: 0; transform: scale(0.5);
+  transition: opacity 0.3s, transform 0.4s var(--ease-spring);
+}
+.cursor.is-hover .cursor__ring { width: 54px; height: 54px; margin: -27px 0 0 -27px; border-color: var(--accent); opacity: 0.9; }
+.cursor.has-label .cursor__ring {
+  width: 84px; height: 84px; margin: -42px 0 0 -42px;
+  background: var(--accent); border-color: var(--accent); opacity: 1;
+}
+.cursor.has-label .cursor__label { opacity: 1; transform: scale(1); }
+.cursor.has-label .cursor__dot { opacity: 0; }
+.cursor.is-down .cursor__ring { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+.cursor.is-hidden .cursor__dot, .cursor.is-hidden .cursor__ring { opacity: 0; }
+
+.burst-star { position: fixed; width: 14px; height: 14px; margin: -7px 0 0 -7px; pointer-events: none; z-index: 9998; }

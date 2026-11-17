@@ -1,0 +1,38 @@
+/* Page shell: fixed background (video + network), the 3-part layout, footer */
+.bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg__video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; filter: saturate(0.6);
+  transition: opacity 2s var(--ease-out);
+}
+.bg__video.is-playing { opacity: var(--video-o-light, 0.12); }
+[data-theme="dark"] .bg__video.is-playing { opacity: var(--video-o-dark, 0.22); }
+.bg__shade { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, var(--bg) 95%); }
+.bg__canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.8; }
+
+.layout {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(362px, 472px) minmax(0, 880px);
+  align-items: center; justify-content: center;
+  min-height: max(100vh, 700px);
+  padding: 40px 3vw 56px;
+}
+/* Card + menu: the menu (sidenav.css) is centered on the card's left border, 42px in */
+.profile { position: relative; z-index: 2; padding-left: 42px; }
+.pcard { height: min(760px, calc(max(100vh, 700px) - 110px)); }
+.panel { z-index: 1; margin-left: -34px; height: min(700px, calc(max(100vh, 700px) - 170px)); }
+
+.footer {
+  position: absolute; left: 0; right: 0; bottom: 16px; z-index: 1;
+  text-align: center; font-size: 0.9rem; color: var(--muted);
+}
+.footer span { color: var(--accent); }
+
+@media (max-width: 1100px) {
+  .layout { display: flex; flex-direction: column; align-items: center; gap: 28px; min-height: 0; padding: 28px 16px 40px; }
+  .profile { width: min(430px, 100%); padding-left: 0; }
+  .pcard { height: 600px; }
+  .panel { width: 100%; max-width: 880px; height: auto; margin: 0; }
+  .footer { position: static; padding: 0 0 100px; }
+}
