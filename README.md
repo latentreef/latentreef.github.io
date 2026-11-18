@@ -1,6 +1,6 @@
-# Aljon Macabali — Senior AI Engineer Portfolio
+# Senior AI Engineer Portfolio
 
-A vCard-style portfolio for a Senior AI Engineer based in the Philippines, built with **Node.js + Vite**. A side menu, a tilted profile card with a CRT/TV photo effect, and a rounded panel that shows one page at a time (About, Resume, Works, Stack, Contact). Graphite with a green accent, dark by default, with a light theme.
+A vCard-style portfolio for a Senior AI Engineer, built with **Node.js + Vite**. A side menu, a tilted profile card with a CRT/TV photo effect, and a rounded panel that shows one page at a time (About, Resume, Works, Stack, Contact). Graphite with a green accent, dark by default, with a light theme.
 
 All page content lives in **one file**, [`src/data/profile.js`](src/data/profile.js).
 
@@ -52,7 +52,7 @@ The custom cursor, card tilt and spotlight turn off on touch devices. Everything
 | Services, principles, stack, projects (+ category, role, image, metrics, links), experience, education | `src/data/profile.js` |
 | Project screenshots | `public/works/*.jpg` (960×600), referenced by `image` in each project |
 | Photo | Put `me.jpg` in `public/`, set `photo: 'me.jpg'`, tune the crop with `photoPosition` |
-| "Download Resume" button | `public/resume.pdf` is generated from `profile.js`: run `npm run resume` after editing (needs Edge or Chrome). Or drop in your own PDF. Set `cv: ''` to show "Copy email" instead |
+| "Download Resume" button | `public/resume.pdf` is generated from `profile.js`: run `npm run resume` after editing (needs a Chromium-based browser). Or drop in your own PDF. Set `cv: ''` to show "Copy email" instead |
 | Background video | Replace `public/videos/fish.mp4` (or change `bgVideo.src`); tune `bgVideo.opacity`; set `bgVideo: null` to remove |
 | Theme colors, radius, fonts | CSS variables at the top of `src/styles/base.css` |
 | Page markup | `src/sections/pages.js` (About, Resume, Works, Contact), `src/sections/stack.js` |
@@ -96,18 +96,16 @@ In `profile.js`, wrap words in `*asterisks*` to highlight them in the accent col
 - Faint underwater video and a green neural-network canvas behind everything
 - Animated stats, filterable project cards drawn as app-window previews, terminal that types out your profile
 - "Download Resume" on the card (a PDF generated from the same data); contact form that opens an email draft
-- Greeting by time of day and live world clocks (Manila time first)
-- Fonts bundled through `@fontsource` (Rajdhani, Geist Mono), so it works offline
-- Easter egg: type **`philippines`** on the page
+- Greeting by time of day and live world clocks (local time first)
+- Fonts bundled as npm packages, so it works offline
+- Easter egg: type a secret word on the page
 
 ## Credits
 
-The background video is stitched from four free clips on [Mixkit](https://mixkit.co/free-stock-video/fish/) (IDs 47402, 44976, 44869, 44868), used under the [Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree), which allows commercial and personal use without attribution.
+The background video is stitched from four free stock clips, used under a license that allows commercial and personal use without attribution.
 
 ## Deploy
 
-`npm run build` creates static files in `dist/`. Upload them to any static host: **Vercel**, **Netlify**, **Cloudflare Pages**, or **GitHub Pages**.
-
-On Vercel or Netlify, use build command `npm run build` and output directory `dist`.
+`npm run build` creates static files in `dist/`. Upload them to any static host. Use build command `npm run build` and output directory `dist`.
 
 `base: './'` in `vite.config.js` means the build also works from a sub-folder.
