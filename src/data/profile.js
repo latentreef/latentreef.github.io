@@ -149,7 +149,7 @@ export const profile = {
     },
     {
       title: 'Radiant Claims',
-      year: 'radiantclaims.com',
+      year: 'radiant-claims.vercel.app',
       category: 'Products',
       kind: '7-agent federal claims & document platform',
       role: 'AI Engineer & Full-Stack Developer — sole builder, architecture through production',
@@ -163,7 +163,7 @@ export const profile = {
       image: 'works/radiantclaims.jpg',
       colors: ['#7a2e1f', '#e0674a'],
       glyph: '☢',
-      links: [{ label: 'Visit site', href: 'https://radiantclaims.com' }],
+      links: [{ label: 'Visit site', href: 'https://radiant-claims.vercel.app/' }],
     },
     {
       title: 'Filter Coop',
