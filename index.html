@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+  Vite entry shell. You normally don't need to edit this file:
+  page content comes from src/data/profile.js and is rendered by src/sections/*.
+-->
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Portfolio</title>
+  <meta name="description" content="" />
+  <meta name="theme-color" content="#121417" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <!-- Every visit starts dark; the toggle only changes the current visit. Also clear a choice saved by older versions. -->
+  <script>try { localStorage.removeItem('theme'); } catch (e) {}</script>
+  <script type="module" crossorigin src="./assets/index-BbcUQG4j.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Du0eGy_3.css">
+</head>
+
+<body class="is-loading">
+  <!-- Loader stays in the shell so it shows before any JS runs -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__panel loader__panel--1"></div>
+    <div class="loader__panel loader__panel--2"></div>
+    <div class="loader__panel loader__panel--3"></div>
+    <div class="loader__content">
+      <p class="loader__hello">Hello, world.</p>
+      <p class="loader__word">&gt; loading model weights…</p>
+      <p class="loader__count"><span id="loaderCount">0</span>%</p>
+    </div>
+  </div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"><span class="cursor__label"></span></div>
+  </div>
+
+  <div id="app"></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Shared SVG symbol: star used by the click burst -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="star-symbol" viewBox="-10 -10 20 20">
+        <polygon fill="currentColor" points="0,-10 2.35,-3.24 9.51,-3.09 3.8,1.24 5.88,8.09 0,4 -5.88,8.09 -3.8,1.24 -9.51,-3.09 -2.35,-3.24" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <noscript>
+    <style>.loader,.cursor{display:none!important}body.is-loading{overflow:auto}</style>
+    <p style="padding:2rem;font-family:sans-serif">This portfolio needs JavaScript enabled. Thank you!</p>
+  </noscript>
+
+</body>
+</html>
